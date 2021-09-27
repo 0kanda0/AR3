@@ -1,34 +1,38 @@
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>A-Frame で超簡単 AR</title>
-    </head>
-    <body style="margin:0px; overflow:hidden;">
-      <!-- A-Frame ライブラリの読み込み -->
-      <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-      <!-- AR.js ライブラリの読み込み -->
-      <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-      
-      <!-- A-Frame の VR空間に AR.js を紐づける（デバッグUIを非表示） -->
-      <a-scene embedded arjs="debugUIEnabled:false;">
-        <a-cube
-                color="#0095DD"
-                position="0 1 0"
-                rotation="20 40 0">
-        </a-cube>
-     
-        <!-- マーカーを登録（プリセットされている「hiro」マーカー） -->
-        <a-marker preset="hiro">
-          <!-- マーカーの場所に箱を置く（見やすいようにワイヤーフレーム表示） -->
-          <a-box position="0 0.5 0" wireframe="true"></a-box>
-        </a-marker>
-     
-        <!-- AR用のカメラを置く -->
-        <a-entity camera></a-entity>
-     
-      </a-scene>
-     
-    </body>
-    </html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MDN Games: A-Frame demo</title>
+  <script src="js/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <a-sky color="#DDDDDD"></a-sky>
+    <a-light type="directional" color="#FFF" intensity="0.5" position="-1 1 2"></a-light>
+    <a-light type="ambient" color="#FFF"></a-light>
+    <a-camera position="0 1 4" cursor-visible="true" cursor-scale="2" cursor-color="#0095DD" cursor-opacity="0.5"></a-camera>
+    <a-cube color="#0095DD" rotation="20 40 0" position="0 1 0">
+      <a-animation attribute="rotation" from="20 0 0" to="20 360 0" direction="alternate" dur="4000" repeat="indefinite" easing="ease"></a-animation>
+    </a-cube>
+    <a-entity geometry="primitive: torus; radius: 1; radiusTubular: 0.1; segmentsTubular: 12;" material="color: #EAEFF2; roughness: 0.1; metalness: 0.5;" rotation="10 0 0" position="-3 1 0">
+    <a-animation attribute="scale" to="1 0.5 1" direction="alternate" dur="2000" repeat="indefinite" easing="linear"></a-animation>
+    </a-entity>
+  </a-scene>
+  <script>
+    var scene = document.querySelector('a-scene');
+    var cylinder = document.createElement('a-cylinder');
+    cylinder.setAttribute('color', '#FF9500');
+    cylinder.setAttribute('height', '2');
+    cylinder.setAttribute('radius', '0.75');
+    cylinder.setAttribute('position', '3 1 0');
+    scene.appendChild(cylinder);
+    var t = 0;
+    function render() {
+      t += 0.01;
+      requestAnimationFrame(render);
+      cylinder.setAttribute('position', '3 '+(Math.sin(t*2)+1)+' 0');
+    }
+    render();
+  </script>
+</body>
+</html>
